@@ -41,7 +41,7 @@ __如果你是采用supervised, HAOS方式部署的home-assistant（也就是说
 
 ```bash
 cd /addons
-git clone https://github.com/louisslee/sgcc_electricity.git
+git clone https://github.com/YoloForDream/sgcc_ha.git
 cd sgcc_electricity
 chmod 777 run.sh
 ```
