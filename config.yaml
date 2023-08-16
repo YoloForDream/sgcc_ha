@@ -1,7 +1,7 @@
-name: "sgcc_electricity"
+name: "sgcc_ha"
 version: "1.0"
 slug: sgcc_electricity
-description: "Make sgcc electricity data available in HA"
+description: "Make sgcc ha data available in HA"
 arch:
   - amd64
   - aarch64
