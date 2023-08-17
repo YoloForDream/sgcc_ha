@@ -1,12 +1,10 @@
 import logging
 import logging.config
-import os
 import sys
 import time
 import traceback
 from datetime import datetime
-
-import dotenv
+import argparse
 import schedule
 
 from const import *
@@ -15,20 +13,20 @@ from sensor_updator import SensorUpdator
 
 
 def main():
-    # 读取 .env 文件
-    dotenv.load_dotenv()
-
+    # 定义首次睡眠时间为10秒
+    FIRST_SLEEP_TIME = 10
     try:
-        PHONE_NUMBER = os.getenv("PHONE_NUMBER")
-        PASSWORD = os.getenv("PASSWORD")
-        HASS_URL = os.getenv("HASS_URL")
-        HASS_TOKEN = os.getenv("HASS_TOKEN")
-        JOB_START_TIME = os.getenv("JOB_START_TIME")
-        FIRST_SLEEP_TIME = int(os.getenv("FIRST_SLEEP_TIME"))
-        LOG_LEVEL = os.getenv("LOG_LEVEL")
+        # 获取从run.sh启动main.py脚本时候传入的配置参数信息
+        parameters = process_arguments()
+        PHONE_NUMBER = parameters[0]
+        PASSWORD = parameters[1]
+        HASS_URL = parameters[2]
+        HASS_TOKEN = parameters[3]
+        JOB_START_TIME = parameters[4]
+        LOG_LEVEL = parameters[5] 
 
     except Exception as e:
-        logging.error(f"读取.env文件失败，程序将退出，错误信息为{e}")
+        logging.error(f"读取配置信息失败，程序将退出，错误信息为{e}")
         sys.exit()
 
     logger_init(LOG_LEVEL)
@@ -51,6 +49,32 @@ def main():
         schedule.run_pending()
         time.sleep(1)
 
+def process_arguments():
+    # 创建参数解析器
+    parser = argparse.ArgumentParser()
+
+    # 添加命令行参数
+    parser.add_argument("--PHONE_NUMBER", help="Phone number")
+    parser.add_argument("--PASSWORD", help="Password")
+    parser.add_argument("--HASS_URL", help="Hass URL")
+    parser.add_argument("--HASS_TOKEN", help="Hass token")
+    parser.add_argument("--JOB_START_TIME", help="Job start time")
+    parser.add_argument("--LOG_LEVEL", help="Log level")
+
+    # 解析命令行参数
+    args = parser.parse_args()
+
+    # 使用解析后的参数
+    phone_number = args.PHONE_NUMBER
+    password = args.PASSWORD
+    hass_url = args.HASS_URL
+    hass_token = args.HASS_TOKEN
+    job_start_time = args.JOB_START_TIME
+    log_level = args.LOG_LEVEL
+
+
+    # 返回解析后的参数列表
+    return [phone_number, password, hass_url, hass_token, job_start_time, log_level]
 
 def run_task(data_fetcher: DataFetcher, sensor_updator: SensorUpdator):
     try:
