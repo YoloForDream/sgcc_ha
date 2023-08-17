@@ -5,7 +5,20 @@ configuration:
   password:
     name: 密码
     description: 请输入网上国网密码 
+  hass_url:
+    name: HA地址
+    description: 请输入Host地址
+  hass_token:
+    name: HA令牌
+    description: 请输入HA长期令牌
+  job_start_time:
+    name: 程序每天运行的时间
+    description: 请输入时间，比如08：00表示每天8点执行该程序
   logLevel:
     name: 日志level
     description: 默认为INFO
+  
+
+
+
 
