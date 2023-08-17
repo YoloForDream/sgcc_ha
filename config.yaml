@@ -12,9 +12,15 @@ homeassistant_api: true
 options:
   phoneNumber: null
   password: null
+  hass_url: null
+  hass_token: null
+  job_start_time: null 
   logLevel: "INFO"
 schema:
   phoneNumber: str
   password: str
+  hass_url: str
+  hass_token: str
+  job_start_time: str
   logLevel: list(DEBUG|INFO|WARNING|ERROR|FATAL)?
 
